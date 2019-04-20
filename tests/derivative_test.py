@@ -2,7 +2,8 @@ import vaex
 from common import *
 import numpy as np
 
-def test_basics(ds):
+def test_basics(ds_local):
+	ds = ds_local
 	x = ds['x']
 	y = ds['y']
 	z = x * y
