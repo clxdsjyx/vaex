@@ -76,8 +76,15 @@ class AggregatorDescriptorMean(AggregatorDescriptor):
         self.dtype_out = self.sum.dtype_out
         @vaex.delayed
         def finish(sum, count):
+            dtype = sum.dtype
+            if sum.dtype.kind == 'M':
+                sum = sum.view('uint64')
+                count = count.view('uint64')
             with np.errstate(divide='ignore', invalid='ignore'):
                 mean = sum / count
+            if dtype.kind != mean.dtype.kind:
+                # TODO: not sure why view does not work
+                mean = mean.astype(dtype)
             return mean
         return finish(task_sum, task_count)
 
