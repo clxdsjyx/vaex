@@ -867,12 +867,6 @@ def gen_to_list(fn=None, wrapper=list):
         return listify_return
     return listify_return(fn)
 
-def unique_nanfix(values, return_inverse=False):
-    import vaex.superutils
-    if values.dtype.kind == 'f':
-        return vaex.superutils.unique(values, return_inverse=return_inverse)
-    else:
-        return np.unique(values, return_inverse=return_inverse)
 
 def find_type_from_dtype(namespace, prefix, dtype, transient=True):
     if dtype == str_type:
@@ -893,6 +887,7 @@ def find_type_from_dtype(namespace, prefix, dtype, transient=True):
         return getattr(namespace, name)
     else:
         raise ValueError('Could not find a class (%s), seems %s is not supported' % (name, dtype))
+
 
 def extract_central_part(ar):
     return ar[(slice(2,-1), ) * ar.ndim]

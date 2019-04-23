@@ -35,17 +35,10 @@ class AggregatorDescriptorBasic(AggregatorDescriptor):
         return agg_task.add_aggregation_operation(self, edges=edges, **kwargs)
 
     def _create_operation(self, df, grid):
-        if grid is None and binners is None:
-            raise ValueError('Provide either binners or grid')
-        if grid is None:
-            binners = [binner.copy() for binner in binners]
-            grid = vaex.superagg.Grid(binners)
-        # expression = df[str(self.expression)]
         if self.expression == '*':
             self.dtype_in = np.dtype('int64')
             self.dtype_out = np.dtype('int64')
         else:
-            # self.dtype = df[str(self.expressions[0])].dtype
             self.dtype_in = df[str(self.expressions[0])].dtype
             self.dtype_out = self.dtype_in
             if self.short_name == "count":
